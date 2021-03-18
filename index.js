@@ -1,7 +1,6 @@
 'use strict';
 
 import { cpus } from 'os';
-
 import cluster from 'cluster';
 import express from 'express';
 
@@ -19,6 +18,8 @@ if (cluster.isMaster) {
   }
   // события родительского процесса
   import('./config/masterProcessEvents.js');
+  // mongo
+  import('./config/mongoDatabase');
 } else {
   let server = app.listen(PORT, () => console.log(`Server worked on port ${PORT}, pid: ${process.pid}`));
   
