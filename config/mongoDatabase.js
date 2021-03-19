@@ -12,7 +12,7 @@ const CONNECTION_URI = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT
 
 (async () => {
   try {
-    mongoose.connect(CONNECTION_URI,  {useNewUrlParser: true});
+    mongoose.connect(CONNECTION_URI,  { useNewUrlParser: true });
   } catch (error) {
     console.error(error);
   }
