@@ -1,9 +1,15 @@
+import fetch from 'node-fetch';
+
 export const getTrendsRepositories = async () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth();
-  const day = today.getDate();
-  let response = await fetch(`https://api.github.com/search/repositories?sort=stars&order=desc?page=1&q=created:${year}-${month}-${day}`);
-  let repositories = await response.json();
-  return repositories;
+  const response = await fetch(`https://api.github.com/search/repositories?sort=stars&order=desc&q=since:daily`);
+  const repositories = await response.json();
+  return repositories.items.map((item) => ({
+    id: item.id,
+    name: item.name,
+    description: item.description,
+    homepage: item.url,
+    language: item.language,
+    stargazers_count: item.stargazers_count,
+    forks_count: item.forks_count
+  }));
 }
