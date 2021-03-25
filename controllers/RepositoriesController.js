@@ -1,6 +1,6 @@
-import e from 'express';
 import { getTrendsRepositories } from '../config/githubApiMethods.js';
 import Repository from '../models/Repository.js';
+import { syncRepositoriesWithTransaction } from '../config/helpers.js';
 
 const RepositoriesController = {
   /**
@@ -45,7 +45,7 @@ const RepositoriesController = {
    */
   update: async (request, response) => {
     try {
-      const repositories = await getTrendsRepositories();
+      const repositories = await syncRepositoriesWithTransaction();
       response.status(201).json(repositories);
     } catch (error) {
       console.log(error);
