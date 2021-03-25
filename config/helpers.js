@@ -1,18 +1,10 @@
 import Repository from '../models/Repository.js';
+import { getTrendsRepositories } from '../config/githubApiMethods.js';
 
-export const getAndStartRepositoriesUpdater = () => {
-  return setInterval(() => {
-    console.log('hello');
-    console.log(process.pid);
-  }, 15000);
-}
-
-export const syncRepositoriesWithTransaction = (newRepositories) => {
-  const session = Repository.startSession();
-  const repositories = await session.withTransaction(async () => {
-    await Repository.deleteMany({});
-    return await Repository.create(newRepositories);
-  });
-  session.endSession();
+export const syncRepositoriesWithTransaction = async () => {
+  const trendsRepositories = await getTrendsRepositories();
+  await Repository.deleteMany({});
+  const repositories = await Repository.create(trendsRepositories);
+  process.send('reset');
   return repositories;
 }
