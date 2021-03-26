@@ -4,10 +4,9 @@ import { cpus } from 'os';
 import cluster from 'cluster';
 import express from 'express';
 import router from './config/router.js';
-import dotenv from 'dotenv';
 import connectToMongo from './config/mongoDatabase.js';
+import logRequests from './middlewares/logRequests.js'
 
-dotenv.config(); // доступ к .env
 const app = express();
 
 const {
@@ -15,7 +14,8 @@ const {
 } = process.env;
 
 // общие для всех роутов middlewares
-app.use(express.json());
+app.use(express.json()); // парсинг
+app.use(logRequests); // логирование всех запросов
 app.use(router);
 
 if (cluster.isMaster) {
