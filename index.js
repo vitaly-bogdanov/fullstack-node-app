@@ -6,22 +6,24 @@ import express from 'express';
 import router from './config/router.js';
 import connectToMongo from './config/mongoDatabase.js';
 import logRequests from './middlewares/logRequests.js'
+import cors from 'cors';
+import {
+  SERVER_PORT,
+  ORIGIN
+} from './config/vars.js';
 
 const app = express();
 
-const {
-  SERVER_PORT
-} = process.env;
-
 // общие для всех роутов middlewares
 app.use(express.json()); // парсинг
+app.use(cors({ origin: ORIGIN,  methods: '*'}));
 app.use(logRequests); // логирование всех запросов
 app.use(router);
 
 if (cluster.isMaster) {
-  connectToMongo().then(async () => {
+  connectToMongo().then(async () => { // сединение с дб нужно для записи по таймеру, происходит оно в родительском процессе
     // события родительского процесса
-    import('./config/masterProcessEvents.js');
+    import('./config/masterProcessEvents.js'); // тут же логика таймера и не только
     // занимаем все ядра
     const cpuCount = cpus().length;
     for (let i = 0; i <= cpuCount; i++) {
@@ -30,7 +32,7 @@ if (cluster.isMaster) {
     }
   });
 } else {
-  connectToMongo().then(async () => {
+  connectToMongo().then(async () => { // для обращения к бд с каждого родительского процесса
     app.listen(SERVER_PORT, () => {
       console.log(`Server worked on port ${SERVER_PORT}, pid: ${process.pid}`)
     });

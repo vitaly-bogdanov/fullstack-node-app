@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from 'react';
+import './App.scss';
+import Container from '@material-ui/core/Container';
+import MainLayout from  './layouts/mainLayout/MainLayout';
+import { connect } from 'react-redux';
+import TRootState from './abstractions/types/TRootState'; 
+import TRepository from './abstractions/types/TRepository';
 
-function App() {
+interface IMapStateToProps {
+  repositories: TRepository[],
+  loaded: boolean
+};
+
+interface Props extends IMapStateToProps {};
+
+// одна страница на все приложение
+const App: FC<Props> = props => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <MainLayout>
+      <Container>
+        <div>
 
-export default App;
+        </div>
+      </Container>
+    </MainLayout>    
+  );
+};
+
+const mapStateToProps = (state: TRootState): IMapStateToProps => ({
+  repositories: state.repositories.items,
+  loaded: state.repositories.loaded
+});
+
+export default connect(mapStateToProps)(App);
