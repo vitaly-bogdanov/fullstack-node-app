@@ -13,5 +13,11 @@ code {
 }
 
 main {
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
+}
+
+section {
+  box-sizing: border-box;
+  padding: 20px;
 }

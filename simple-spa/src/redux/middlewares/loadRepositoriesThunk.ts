@@ -1,13 +1,14 @@
-import { loadRepositoriesApi } from '../../config/apiMethods';
+import apiMethod from '../../config/apiMethods';
 import { Dispatch } from 'redux';
-import loadRepositoriesAction, { TLoadRepositoriesAction } from '../actions/loadRepositoriesAction'; 
+import loadRepositoriesAction from '../actions/loadRepositoriesAction'; 
+import TRepository from '../../abstractions/types/TRepository';
 
-const loadRepositoriesThunk: Function = () => (dispatch: Dispatch<TLoadRepositoriesAction>) => {
-  loadRepositoriesApi((response: Response): void => {
-    dispatch(loadRepositoriesAction(response));
+const loadRepositoriesThunk = () => (dispatch: Dispatch) => {
+  apiMethod('/repositories', 'GET', (repositories: TRepository[]): void => {
+    dispatch(loadRepositoriesAction(repositories));
   }, (error: any): void => {
-    console.error(error);
+    console.dir(error);
   });
-}
+};
 
 export default loadRepositoriesThunk;

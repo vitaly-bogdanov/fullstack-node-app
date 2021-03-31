@@ -56,7 +56,8 @@ const RepositoriesController = {
   delete: async (request, response) => {
     try {
       await Repository.deleteMany({});
-      response.status(200).end();
+      console.log("server");
+      response.status(200).json({ message: "repository deleted" });
     } catch (error) {
       console.log(error);
       response.status().json({ error: error.message });

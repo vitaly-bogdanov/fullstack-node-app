@@ -17,7 +17,7 @@ const app = express();
 // общие для всех роутов middlewares
 app.use(express.json()); // парсинг
 app.use(cors({ origin: ORIGIN,  methods: '*'}));
-app.use(logRequests); // логирование всех запросов
+//app.use(logRequests); // логирование всех запросов
 app.use(router);
 
 if (cluster.isMaster) {
