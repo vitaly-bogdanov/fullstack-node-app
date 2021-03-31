@@ -14,7 +14,7 @@ import { syncRepositoriesWithTransaction } from './config/helpers.js';
 			console.log('RESULT:')
 			console.log(repositories);
 			console.log('----------------------');
-			console.log(`Repositories count: ${repositoriesByName.length}\n\n`);
+			console.log(`Repositories count: ${repositories.length}\n\n`);
 			process.exit(0);
 
 		case '--name':
@@ -23,7 +23,7 @@ import { syncRepositoriesWithTransaction } from './config/helpers.js';
 			console.log('RESULT:')
 			console.log(repositories);
 			console.log('----------------------');
-			console.log(`Repositories count: ${repositoriesByName.length}\n\n`);
+			console.log(`Repositories count: ${repositories.length}\n\n`);
 			process.exit(0);
 
 		case '--all':
@@ -42,14 +42,13 @@ import { syncRepositoriesWithTransaction } from './config/helpers.js';
 			process.exit(0);
 
 		case '--sync':
-      await syncRepositoriesWithTransaction();
 			console.log('----------------------');
 			console.log('Created all');
 			console.log('----------------------');
 			process.exit(0);
       
-		default:
-			console.log("Undefined command");
-			process.exit(1);
+    default:
+      console.log("Undefined command");
+      process.exit(1);
 	}
 })();
