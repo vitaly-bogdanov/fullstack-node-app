@@ -87,7 +87,7 @@ const App: FC<Props> = props => {
 };
 
 const mapStateToProps = (state: TRootState): IMapStateToProps => ({
-  repositories: (method: TSearchMethod, query: string): TRepository[] => { 
+  repositories: (method: TSearchMethod, query: string): TRepository[] => { // для поиска по state
     return state.repositories.items.filter((item: TRepository) => {
       if (query.length > 0) {
         return item[method] == query;
